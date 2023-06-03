@@ -1,0 +1,7 @@
+POST https://localhost:7104/content
+Content-Type: application/json
+
+{
+    "title": "สวีดัด",
+    "message": "สวัสดี"
+}
