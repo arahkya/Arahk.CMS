@@ -16,6 +16,7 @@ public static class Startup
         });
 
         services.AddScoped<IRepository<Content>, DefaultDbContext>();
+        services.AddScoped<AuditInterceptor>();
 
         return services;
     }

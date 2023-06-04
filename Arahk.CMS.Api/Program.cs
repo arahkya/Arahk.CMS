@@ -2,6 +2,8 @@ using System.Net;
 using Serilog;
 using Arahk.CMS.Application;
 using Arahk.CMS.Infrastructure;
+using Arahk.CMS.Application.Common;
+using Arahk.CMS.Api.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -14,6 +16,9 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddCMSApplication();
 builder.Services.AddCMSInfrastructure();
+
+builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+builder.Services.AddTransient<IUserIdProvider, UserIdProvider>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
