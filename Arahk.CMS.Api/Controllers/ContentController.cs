@@ -4,6 +4,7 @@ using Mapster;
 using Arahk.CMS.Application.CQRS.Commands.CreateContent;
 using Arahk.CMS.Application.CQRS.Queryies.ListContent;
 using Arahk.CMS.Domain.CMS;
+using Arahk.CMS.Api.Models.Content;
 
 namespace Arahk.CMS.Api.Controllers;
 
@@ -33,7 +34,8 @@ public class ContentController : ControllerBase
     public async Task<IActionResult> ListAsync()
     {
         IEnumerable<Content> contentList = await mediator.Send(new ListContentRequest());
+        IEnumerable<ContentListItemModel> items = contentList.Select(p => p.Adapt<ContentListItemModel>());
 
-        return Ok(contentList);
+        return Ok(items);
     }
 }
