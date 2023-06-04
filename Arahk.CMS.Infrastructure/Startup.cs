@@ -12,7 +12,9 @@ public static class Startup
     {
         services.AddDbContext<DefaultDbContext>(dbContextOptions =>
         {
-            dbContextOptions.UseInMemoryDatabase("Default");
+            // dbContextOptions.UseInMemoryDatabase("Default");
+            
+            dbContextOptions.UseSqlServer("Server=localhost; Database=CMSDB; User Id=SA; Password=Password!123; TrustServerCertificate=True");
         });
 
         services.AddScoped<IRepository<Content>, DefaultDbContext>();

@@ -12,7 +12,7 @@ public class DefaultDbContext : DbContext, IRepository<Content>
 
     public DbSet<Content> Contents { get; set; } = default!;
 
-    public DbSet<ChangedAuditEntry> ChangeAuditEntries { get; set; } = default!;
+    public DbSet<ChangedAuditEntry> ChangedAuditEntries { get; set; } = default!;
 
     public DefaultDbContext(DbContextOptions options, AuditInterceptor auditInterceptor) : base(options)
     {
