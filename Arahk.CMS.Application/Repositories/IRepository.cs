@@ -8,5 +8,7 @@ public interface IRepository<T> where T : class
 
     Task<List<T>> ListAsync();
 
+    Task DeleteAsync(Guid id);
+
     Task CommitChangedAsync();
 }

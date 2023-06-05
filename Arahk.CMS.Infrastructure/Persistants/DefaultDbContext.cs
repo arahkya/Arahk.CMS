@@ -1,7 +1,6 @@
 using Arahk.CMS.Domain.CMS;
 using Arahk.CMS.Application.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Arahk.CMS.Infrastructure.Persistants;
 
@@ -52,5 +51,17 @@ public class DefaultDbContext : DbContext, IRepository<Content>
     async Task<Content?> IRepository<Content>.GetAsync(Guid id)
     {
         return await FindAsync<Content>(id);
+    }
+
+    async Task IRepository<Content>.DeleteAsync(Guid id)
+    {
+        Content? toDeleteContent = await FindAsync<Content>(id);
+
+        if (toDeleteContent == null)
+        {
+            return;
+        }
+
+        Contents.Remove(toDeleteContent);
     }
 }

@@ -1,4 +1,4 @@
-PATCh https://localhost:7104/content
+PATCH https://localhost:7104/content
 Content-Type: application/json
 
 {
