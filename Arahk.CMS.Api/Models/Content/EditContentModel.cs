@@ -1,6 +1,6 @@
 namespace Arahk.CMS.Api.Models.Content;
 
-public class ContentListItemModel
+public class EditContentModel
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = default!;

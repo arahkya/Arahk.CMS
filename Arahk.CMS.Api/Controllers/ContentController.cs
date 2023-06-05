@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mapster;
 using Arahk.CMS.Application.CQRS.Commands.CreateContent;
+using Arahk.CMS.Application.CQRS.Commands.UpdateContent;
 using Arahk.CMS.Application.CQRS.Queryies.ListContent;
 using Arahk.CMS.Domain.CMS;
 using Arahk.CMS.Api.Models.Content;
@@ -37,5 +38,14 @@ public class ContentController : ControllerBase
         IEnumerable<ContentListItemModel> items = contentList.Select(p => p.Adapt<ContentListItemModel>());
 
         return Ok(items);
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> UpdateAsync(EditContentModel model)
+    {
+        UpdateContentRequest request = model.Adapt<UpdateContentRequest>();
+        await mediator.Send(request);
+
+        return Ok();
     }
 }

@@ -48,4 +48,9 @@ public class DefaultDbContext : DbContext, IRepository<Content>
     {
         return await Contents.OrderByDescending(p => p.Title).ToListAsync();
     }
+
+    async Task<Content?> IRepository<Content>.GetAsync(Guid id)
+    {
+        return await FindAsync<Content>(id);
+    }
 }

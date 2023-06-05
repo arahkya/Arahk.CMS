@@ -1,0 +1,8 @@
+PATCh https://localhost:7104/content
+Content-Type: application/json
+
+{
+    "id": "d1e88e63-80a8-448b-a42b-c99bbc4f5852",
+    "title": "Hello",
+    "message": "World"
+}
