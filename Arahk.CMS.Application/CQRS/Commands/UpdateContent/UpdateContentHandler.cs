@@ -20,7 +20,7 @@ public class UpdateContentHandler : IRequestHandler<UpdateContentRequest, Unit>
         updateContentMapConfig.NewConfig<UpdateContentRequest, Content>()
                               .Ignore(s => s.Id);
 
-        Content existedContent = (await repository.GetAsync(request.Id))!;
+        Content existedContent = (await repository.GetAsync(request.Id)) ?? throw new Exception($"Content not found with Id {request.Id}");
         existedContent = request.Adapt(existedContent, updateContentMapConfig);
 
         await repository.CommitChangedAsync();
