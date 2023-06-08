@@ -33,6 +33,7 @@ public class ContentController : ControllerBase
     }
 
     [HttpGet]
+    [Route("list")]
     public async Task<IActionResult> ListAsync()
     {
         IEnumerable<Content> contentList = await mediator.Send(new ListContentRequest());
@@ -51,7 +52,7 @@ public class ContentController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("delete/{id}")]
+    [Route("{id}")]
     public async Task<IActionResult> UpdateAsync(Guid id)
     {
         DeleteContentRequest request = new()
