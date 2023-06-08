@@ -31,7 +31,7 @@ builder.Services.AddProblemDetails(problemDetailCfg =>
     {
         if (problemDetailContext.ProblemDetails.Title == typeof(FluentValidation.ValidationException).FullName)
         {
-            problemDetailContext.ProblemDetails.Status = (int)HttpStatusCode.BadRequest;            
+            problemDetailContext.ProblemDetails.Status = (int)HttpStatusCode.BadRequest;
         }
     };
 });
@@ -52,3 +52,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

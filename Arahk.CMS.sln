@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arahk.CMS.Domain", "Arahk.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arahk.CMS.Infrastructure", "Arahk.CMS.Infrastructure\Arahk.CMS.Infrastructure.csproj", "{65BB8830-0960-4731-80AE-B97AF6983AFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arahk.CMS.Api.Tests", "Arahk.CMS.Api.Tests\Arahk.CMS.Api.Tests.csproj", "{ED133109-2FC3-47F8-A14E-A222CF406C6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{65BB8830-0960-4731-80AE-B97AF6983AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65BB8830-0960-4731-80AE-B97AF6983AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65BB8830-0960-4731-80AE-B97AF6983AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED133109-2FC3-47F8-A14E-A222CF406C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED133109-2FC3-47F8-A14E-A222CF406C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED133109-2FC3-47F8-A14E-A222CF406C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED133109-2FC3-47F8-A14E-A222CF406C6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
