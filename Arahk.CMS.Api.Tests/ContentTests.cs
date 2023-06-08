@@ -18,7 +18,7 @@ public class ContentTests : IClassFixture<TestWebApplicationFactory>
         // Arrange
         HttpClient client = _factory.CreateClient();
 
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/content");
+        HttpRequestMessage request = new(HttpMethod.Post, "/content");
         request.Content = JsonContent.Create(new CreateContentModel
         {
             Title = "Test Title",
@@ -38,7 +38,7 @@ public class ContentTests : IClassFixture<TestWebApplicationFactory>
         // Arrange
         HttpClient client = _factory.CreateClient();
 
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, "/content");
+        HttpRequestMessage request = new(HttpMethod.Patch, "/content");
         request.Content = JsonContent.Create(new EditContentModel
         {
             Id = Guid.Parse("a186c328-2f7d-4872-8f71-cabd985a7c83"),
@@ -51,5 +51,24 @@ public class ContentTests : IClassFixture<TestWebApplicationFactory>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
+    }
+
+    [Fact]
+    public async void ListSuccessTest()
+    {
+        // Arrange
+        HttpClient client = _factory.CreateClient();
+        HttpRequestMessage request = new(HttpMethod.Get, "/content/list");
+
+        // Action
+        HttpResponseMessage responseMessage = await client.SendAsync(request);
+        IEnumerable<ContentListItemModel>? items = await responseMessage.Content.ReadFromJsonAsync<IEnumerable<ContentListItemModel>>();
+
+        // Assert
+        Assert.NotNull(items);
+        Assert.Equal(1, items.Count());
+        Assert.Equal("a186c328-2f7d-4872-8f71-cabd985a7c83", items.First().Id.ToString());
+        Assert.Equal("Existed Title", items.First().Title);
+        Assert.Equal("Existed Message", items.First().Message);
     }
 }
