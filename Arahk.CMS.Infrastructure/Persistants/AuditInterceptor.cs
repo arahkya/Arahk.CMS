@@ -21,11 +21,11 @@ public class AuditInterceptor : SaveChangesInterceptor
     {
         IEnumerable<EntityEntry> changeEntries = eventData.Context?.ChangeTracker.Entries() ?? Enumerable.Empty<EntityEntry>();
 
-        foreach (EntityEntry changeEntry in changeEntries.ToList())
+        foreach (EntityEntry changedEntry in changeEntries.ToList())
         {
-            if (changeEntry.Entity is IEntity && changeEntry.Entity is IAuditable)
+            if (changedEntry.Entity is IEntity && changedEntry.Entity is IAuditable)
             {
-                string changedState = changeEntry.State switch
+                string changedState = changedEntry.State switch
                 {
                     EntityState.Added => "Added",
                     EntityState.Modified => "Modified",
@@ -33,21 +33,50 @@ public class AuditInterceptor : SaveChangesInterceptor
                     _ => "Unknown"
                 };
 
-                string entityTypeName = changeEntry.Entity.GetType().FullName ?? "Unknown";
+                string entityTypeName = changedEntry.Entity.GetType().FullName ?? "Unknown";
                 DateTime changedDate = dateTimeProvider.GetCurrentDateTime();
-                Guid entityId = ((IEntity)changeEntry.Entity).Id;
+                Guid entityId = ((IEntity)changedEntry.Entity).Id;
                 Guid changedByUserId = userIdProvider.GetUserId();
+                Guid ChangedBatchId = Guid.NewGuid();
 
-                ChangedAuditEntry changeAuditEntry = new()
+                if (changedState == "Delete")
                 {
-                    EntityId = entityId,
-                    EntityName = entityTypeName,
-                    ChangedDate = changedDate,
-                    ChangedType = changedState,
-                    ChangedByUserId = changedByUserId
-                };
+                    ChangedAuditEntry changeAuditEntry = new()
+                    {
+                        EntityId = entityId,
+                        EntityName = entityTypeName,
+                        ChangedDate = changedDate,
+                        ChangedType = changedState,
+                        ChangedByUserId = changedByUserId,
+                        ChangedBatchId = ChangedBatchId
+                    };
+                    eventData.Context!.Add(changeAuditEntry);
+                }
+                else
+                {
 
-                eventData.Context!.Add(changeAuditEntry);
+                    foreach (PropertyEntry changedProperty in changedEntry.Properties)
+                    {
+                        string propertyName = changedProperty.Metadata.Name;
+                        if(propertyName == "Id") continue;
+                        
+                        ChangedAuditEntry changeAuditEntry = new()
+                        {
+                            EntityId = entityId,
+                            EntityName = entityTypeName,
+                            ChangedDate = changedDate,
+                            ChangedType = changedState,
+                            ChangedByUserId = changedByUserId,
+                            ChangedBatchId = ChangedBatchId,
+                            PropertyName = changedProperty.Metadata.Name,
+                            PreviousValue = (changedState == "Added") ? null : (changedProperty.OriginalValue?.ToString() ?? null),
+                            NewValue = changedProperty.CurrentValue?.ToString() ?? null
+                        };
+
+                        eventData.Context!.Add(changeAuditEntry);
+                    }
+                }
+
                 eventData.Context!.SaveChanges();
             }
         }

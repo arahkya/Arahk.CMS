@@ -2,7 +2,7 @@ PATCH https://localhost:7104/content
 Content-Type: application/json
 
 {
-    "id": "d1e88e63-80a8-448b-a42b-c99bbc4f5852",
+    "id": "a40ddf8b-aaf3-4802-be14-fcf9404a5b29",
     "title": "Hello",
     "message": "World"
 }

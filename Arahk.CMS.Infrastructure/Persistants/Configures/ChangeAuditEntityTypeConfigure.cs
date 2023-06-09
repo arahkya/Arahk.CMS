@@ -12,5 +12,9 @@ public class ChangeAuditEntityTypeConfigure : IEntityTypeConfiguration<ChangedAu
         builder.Property(p => p.EntityName).IsRequired().HasMaxLength(100);
         builder.Property(p => p.ChangedByUserId).IsRequired().HasMaxLength(40);        
         builder.Property(p => p.ChangedType).IsRequired().HasMaxLength(20);
+        builder.Property(p => p.PropertyName).HasMaxLength(50);
+        builder.Property(p => p.PreviousValue).HasMaxLength(1000);
+        builder.Property(p => p.NewValue).HasMaxLength(1000);
+        builder.Property(p => p.ChangedBatchId).IsRequired().HasMaxLength(40);
     }
 }

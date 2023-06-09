@@ -13,4 +13,12 @@ public class ChangedAuditEntry
     public string ChangedType { get; set; } = default!;
 
     public Guid ChangedByUserId { get; set; }
+
+    public string? PropertyName { get; set; }
+
+    public string? PreviousValue { get; set; }
+    
+    public string? NewValue { get; set; }
+
+    public Guid ChangedBatchId { get; set; }
 }
