@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:  
+  labels:
+    app: api-service
+  name: api-service
+  namespace: arahk-cms  
+spec:
+  selector:
+    app: api-deployment 
+  type: ClusterIP
+  ports:
+  - name: 7014-7014
+    port: 7104
+    protocol: TCP
+    targetPort: 7104
+
+---
+
+# This service use for point external database to use in api-service
+# This database is hosted in docker/machine outside k8s.
+
+# This service make for our api-service call to.
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: arahk-cms  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 1433
+    targetPort: 1433
+
+---
+
+# This endpoint is repersent our external database to use along with service above.
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: db-service
+  namespace: arahk-cms
+subsets:
+  - addresses:
+      - ip: 192.168.1.27
+    ports:
+      - port: 1433

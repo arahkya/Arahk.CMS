@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS BUILD
+
+RUN mkdir /build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore Arahk.CMS.sln
+RUN dotnet build -c Release Arahk.CMS.sln
+RUN dotnet publish -c Release -o /app Arahk.CMS.Api/Arahk.CMS.Api.csproj 
+
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS RUNTIME
+
+RUN mkdir /app
+WORKDIR /app
+COPY --from=BUILD /app .
+
+ENTRYPOINT [ "dotnet", "Arahk.CMS.Api.dll" ]

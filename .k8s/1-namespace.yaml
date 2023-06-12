@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:  
+  labels:
+    kubernetes.io/metadata.name: arahk-cms
+  name: arahk-cms
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

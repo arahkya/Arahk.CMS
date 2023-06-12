@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-deployment
+  name: api-deployment
+  namespace: arahk-cms
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: api-deployment
+  template:
+    metadata:      
+      labels:
+        app: api-deployment
+    spec:
+      containers:
+      - image: arahk-cms:latest
+        imagePullPolicy: IfNotPresent
+        name: arahk-cms-api
+        ports:
+        - containerPort: 7104
+          protocol: TCP        
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Release"
+          - name: AZURE_AD_INSTANCE
+            value: "https://login.microsoftonline.com/"
+          - name: ASPNETCORE_CONN_STRING
+            valueFrom:
+              secretKeyRef:
+                name: appsecret
+                key: connection_string          
+          - name: AZURE_AD_CLIENTID
+            valueFrom:
+              secretKeyRef:
+                name: appsecret
+                key: azure_ad_clientid
+          - name: AZURE_AD_TENANTID
+            valueFrom:
+              secretKeyRef:
+                name: appsecret
+                key: azure_ad_tenantid
