@@ -67,7 +67,7 @@ public class ContentTests : IClassFixture<TestWebApplicationFactory>
 
         // Assert
         Assert.NotNull(items);
-        Assert.Equal(1, items.Count());
+        Assert.Single(items);
         Assert.Equal("a186c328-2f7d-4872-8f71-cabd985a7c83", items.First().Id.ToString());
         Assert.Equal("Existed Title", items.First().Title);
         Assert.Equal("Existed Message", items.First().Message);

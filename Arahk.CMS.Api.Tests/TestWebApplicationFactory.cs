@@ -11,7 +11,9 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(s =>
         {
-            IEnumerable<ServiceDescriptor> registeredServices = s.Where(p => p.ServiceType.FullName?.Contains("DefaultDbContext") ?? false).ToList();
+            IEnumerable<ServiceDescriptor> registeredServices = s.Where(p =>
+                (p.ServiceType.FullName?.Contains("DefaultDbContext") ?? false)
+            ).ToList();
 
             foreach (ServiceDescriptor registeredService in registeredServices)
             {
