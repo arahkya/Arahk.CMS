@@ -15,8 +15,12 @@ public class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSch
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
-        var identity = new ClaimsIdentity(claims, "Test");
+        var claims = new[] { 
+            new Claim(ClaimsNames.Name, "Arahk Yambupha"),
+            new Claim(ClaimsNames.EmailAddress, "arahk@outlook.com"),
+            new Claim(ClaimsNames.UserId, "1e5601b9-649b-4b59-9dbf-9db0179bd9d6")
+        };
+        var identity = new ClaimsIdentity(claims, BypassAuthenticationDefaults.SchemaName);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, BypassAuthenticationDefaults.SchemaName);
 

@@ -61,14 +61,12 @@ builder.WebHost.ConfigureKestrel(kestrelOpt =>
     kestrelOpt.ListenAnyIP(7104);
 });
 
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
 app.UseSwagger();
 app.UseSwaggerUI();
-// }
 
 app.UseHttpsRedirection();
 
