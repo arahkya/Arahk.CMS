@@ -5,10 +5,6 @@ using Arahk.CMS.Infrastructure;
 using Arahk.CMS.Application.Common;
 using Arahk.CMS.Api.Services;
 using Arahk.CMS.Api.Authentication;
-#if !DEBUG
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-#endif
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -25,16 +21,7 @@ builder.Services.AddCMSInfrastructure();
 #if DEBUG
 builder.Services.AddBypassAuthentication();
 #else
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(jwtBearerOptions => { }, microsoftIdentityOptions =>
-{
-    string azureInstance = Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE")!;
-    string ClientId = Environment.GetEnvironmentVariable("AZURE_AD_CLIENTID")!;
-    string TenantId = Environment.GetEnvironmentVariable("AZURE_AD_TENANTID")!;
-
-    microsoftIdentityOptions.Instance = azureInstance;
-    microsoftIdentityOptions.ClientId = ClientId;
-    microsoftIdentityOptions.TenantId = TenantId;
-});
+builder.Services.AddAzureAuthentication();
 #endif
 
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();

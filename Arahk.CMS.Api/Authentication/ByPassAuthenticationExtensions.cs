@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace Arahk.CMS.Api.Authentication;
 
-public static class ByPassAuthentication
+public static class ByPassAuthenticationExtensions
 {
     public static IServiceCollection AddBypassAuthentication(this IServiceCollection services)
     {
