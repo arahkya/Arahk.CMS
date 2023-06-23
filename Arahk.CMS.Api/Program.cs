@@ -4,11 +4,8 @@ using Arahk.CMS.Application;
 using Arahk.CMS.Infrastructure;
 using Arahk.CMS.Application.Common;
 using Arahk.CMS.Api.Services;
-#if RELEASE
-using Microsoft.AspNetCore.Authentication.Certificate;
-#else
 using Arahk.CMS.Api.Authentication;
-#endif
+
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -21,12 +18,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddCMSApplication();
 builder.Services.AddCMSInfrastructure();
-
-#if RELEASE
-builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
-#else
 builder.Services.AddBypassAuthentication();
-#endif
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddTransient<IUserIdProvider, UserIdProvider>();
 

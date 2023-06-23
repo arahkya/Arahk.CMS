@@ -1,2 +1,2 @@
-GET https://cms.arahk.com/content/list
+GET http://arahk-cms.azurewebsites.net/content/list
 Content-Type: application/json
