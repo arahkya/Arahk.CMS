@@ -13,16 +13,10 @@ public static class Startup
     {
         services.AddDbContext<DefaultDbContext>(dbContextOptions =>
         {
-#if DEBUG
             using IServiceScope scope = services.BuildServiceProvider().CreateScope();
             string connectionString = scope.ServiceProvider.GetRequiredService<IConfiguration>().GetConnectionString("Default")!;
 
             dbContextOptions.UseSqlServer(connectionString);
-#else
-            string connectionString = Environment.GetEnvironmentVariable("ASPNETCORE_CONN_STRING")!;
-
-            dbContextOptions.UseSqlServer(connectionString);
-#endif
         });
 
         services.AddScoped<IRepository<Content>, DefaultDbContext>();

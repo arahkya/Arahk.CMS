@@ -4,7 +4,11 @@ using Arahk.CMS.Application;
 using Arahk.CMS.Infrastructure;
 using Arahk.CMS.Application.Common;
 using Arahk.CMS.Api.Services;
+#if RELEASE
+using Microsoft.AspNetCore.Authentication.Certificate;
+#else
 using Arahk.CMS.Api.Authentication;
+#endif
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -18,17 +22,15 @@ builder.Host.UseSerilog();
 builder.Services.AddCMSApplication();
 builder.Services.AddCMSInfrastructure();
 
-#if DEBUG
-builder.Services.AddBypassAuthentication();
+#if RELEASE
+builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 #else
-builder.Services.AddAzureAuthentication();
+builder.Services.AddBypassAuthentication();
 #endif
-
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddTransient<IUserIdProvider, UserIdProvider>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -43,18 +45,14 @@ builder.Services.AddProblemDetails(problemDetailCfg =>
     };
 });
 
-builder.WebHost.ConfigureKestrel(kestrelOpt =>
-{
-    kestrelOpt.ListenAnyIP(7104);
-});
-
 builder.Services.AddHttpContextAccessor();
+
+builder.WebHost.UseKestrel();
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
