@@ -1,1 +1,1 @@
-GET https://cms.arahk.com/swagger/index.html
+GET http://arahk-cms.azurewebsites.net/swagger
