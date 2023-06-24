@@ -39,8 +39,6 @@ builder.Services.AddProblemDetails(problemDetailCfg =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.WebHost.UseKestrel();
-
 var app = builder.Build();
 
 app.UseSwagger();
