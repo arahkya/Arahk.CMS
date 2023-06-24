@@ -1,4 +1,4 @@
 # GET https://localhost:7104/content/list
 
-GET http://arahk-cms.azurewebsites.net:8080/content/list
+GET https://arahk-cms.azurewebsites.net/content/list
 Content-Type: application/json

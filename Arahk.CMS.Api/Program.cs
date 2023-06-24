@@ -6,7 +6,6 @@ using Arahk.CMS.Application.Common;
 using Arahk.CMS.Api.Services;
 using Arahk.CMS.Api.Authentication;
 
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
