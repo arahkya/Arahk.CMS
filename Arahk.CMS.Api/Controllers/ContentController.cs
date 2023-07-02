@@ -8,12 +8,10 @@ using Arahk.CMS.Application.CQRS.Queryies.ListContent;
 using Arahk.CMS.Domain.CMS;
 using Arahk.CMS.Api.Models.Content;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Identity.Web.Resource;
 
 namespace Arahk.CMS.Api.Controllers;
 
 [Authorize]
-[RequiredScope("Content.Creator")]
 [ApiController]
 [Route("[controller]")]
 public class ContentController : ControllerBase

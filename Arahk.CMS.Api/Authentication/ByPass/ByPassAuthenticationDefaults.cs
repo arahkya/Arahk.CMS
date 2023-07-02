@@ -1,4 +1,4 @@
-namespace Arahk.CMS.Api.Authentication;
+namespace Arahk.CMS.Api.Authentication.ByPass;
 
 public static class BypassAuthenticationDefaults
 {

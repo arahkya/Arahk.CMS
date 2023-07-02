@@ -5,6 +5,8 @@ using Arahk.CMS.Infrastructure;
 using Arahk.CMS.Application.Common;
 using Arahk.CMS.Api.Services;
 using Arahk.CMS.Api.Authentication;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -17,7 +19,9 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddCMSApplication();
 builder.Services.AddCMSInfrastructure();
-builder.Services.AddBypassAuthentication();
+
+builder.Services.AddCMSAuthentication();
+
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddTransient<IUserIdProvider, UserIdProvider>();
 
@@ -37,6 +41,26 @@ builder.Services.AddProblemDetails(problemDetailCfg =>
 });
 
 builder.Services.AddHttpContextAccessor();
+
+builder.WebHost.UseKestrel(opt =>
+{
+    opt.ConfigureHttpsDefaults(cfgHttps =>
+    {
+        cfgHttps.CheckCertificateRevocation = false;
+        cfgHttps.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+        cfgHttps.ClientCertificateValidation = (x509Certificate2, x509Chain, sslPolicyErrors) => x509Certificate2.Thumbprint == Environment.GetEnvironmentVariable("ASPNETCORE_CERT_THUMBPRINT");
+
+        string certificatePfxPath = Environment.GetEnvironmentVariable("ASPNETCORE_CERT_PFX_PATH")!;
+        string certificatePfxPasskey = Environment.GetEnvironmentVariable("ASPNETCORE_CERT_PASSKEY")!;
+
+        cfgHttps.ServerCertificate = new X509Certificate2(certificatePfxPath, certificatePfxPasskey);
+    });
+
+    opt.ListenAnyIP(8986, listenCfg =>
+    {
+        listenCfg.UseHttps();
+    });
+});
 
 var app = builder.Build();
 

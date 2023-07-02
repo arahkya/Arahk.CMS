@@ -3,11 +3,11 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace Arahk.CMS.Api.Authentication;
+namespace Arahk.CMS.Api.Authentication.Certificate;
 
-public class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public class CertificateAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    public TestAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> option, ILoggerFactory loggerFactory, UrlEncoder urlEncoder, ISystemClock systemClock)
+    public CertificateAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> option, ILoggerFactory loggerFactory, UrlEncoder urlEncoder, ISystemClock systemClock)
         : base(option, loggerFactory, urlEncoder, systemClock)
     {
 
@@ -20,9 +20,9 @@ public class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSch
             new Claim(ClaimsNames.EmailAddress, "arahk@outlook.com"),
             new Claim(ClaimsNames.UserId, "1e5601b9-649b-4b59-9dbf-9db0179bd9d6")
         };
-        var identity = new ClaimsIdentity(claims, BypassAuthenticationDefaults.SchemaName);
+        var identity = new ClaimsIdentity(claims, CertificateAuthenticationDefaults.SchemaName);
         var principal = new ClaimsPrincipal(identity);
-        var ticket = new AuthenticationTicket(principal, BypassAuthenticationDefaults.SchemaName);
+        var ticket = new AuthenticationTicket(principal, CertificateAuthenticationDefaults.SchemaName);
 
         var result = AuthenticateResult.Success(ticket);
 
