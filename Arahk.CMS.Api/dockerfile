@@ -15,4 +15,6 @@ RUN mkdir /app
 WORKDIR /app
 COPY --from=BUILD /app .
 
+COPY .certs/cms.arahk.com.pfx /app
+
 ENTRYPOINT [ "dotnet", "Arahk.CMS.Api.dll" ]
