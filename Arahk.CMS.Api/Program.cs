@@ -48,7 +48,12 @@ builder.WebHost.UseKestrel(opt =>
     {
         cfgHttps.CheckCertificateRevocation = false;
         cfgHttps.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-        cfgHttps.ClientCertificateValidation = (x509Certificate2, x509Chain, sslPolicyErrors) => x509Certificate2.Thumbprint == Environment.GetEnvironmentVariable("ASPNETCORE_CERT_THUMBPRINT");
+        cfgHttps.ClientCertificateValidation = (x509Certificate2, x509Chain, sslPolicyErrors) => 
+        {
+            bool isValidThumbprint = x509Certificate2.Thumbprint.ToLower() == Environment.GetEnvironmentVariable("ASPNETCORE_CERT_THUMBPRINT")!.ToLower();
+
+            return isValidThumbprint;
+        };
 
         string certificatePfxPath = Environment.GetEnvironmentVariable("ASPNETCORE_CERT_PFX_PATH")!;
         string certificatePfxPasskey = Environment.GetEnvironmentVariable("ASPNETCORE_CERT_PASSKEY")!;
@@ -56,7 +61,7 @@ builder.WebHost.UseKestrel(opt =>
         cfgHttps.ServerCertificate = new X509Certificate2(certificatePfxPath, certificatePfxPasskey);
     });
 
-    opt.ListenAnyIP(8986, listenCfg =>
+    opt.Listen(IPAddress.Any, 8986, listenCfg =>
     {
         listenCfg.UseHttps();
     });
