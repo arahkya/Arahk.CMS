@@ -1,5 +1,7 @@
+using Arahk.CMS.Api.Tests.Authentication;
 using Arahk.CMS.Domain.CMS;
 using Arahk.CMS.Infrastructure.Persistants;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,14 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 dbContextOpt.UseInMemoryDatabase("TestDb");
             });
+
+            s.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = TestAuthenticationScheme.DefaultName;
+                opt.DefaultChallengeScheme = TestAuthenticationScheme.DefaultName;
+                opt.DefaultScheme = TestAuthenticationScheme.DefaultName;
+            })
+            .AddScheme<AuthenticationSchemeOptions, TestAuthenticationScheme>(TestAuthenticationScheme.DefaultName, schemeOpt => schemeOpt.Validate());
 
             using IServiceScope scope = s.BuildServiceProvider().CreateScope();
             DefaultDbContext dbContext = scope.ServiceProvider.GetRequiredService<DefaultDbContext>();

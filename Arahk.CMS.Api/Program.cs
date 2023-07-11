@@ -19,7 +19,6 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddCMSApplication();
 builder.Services.AddCMSInfrastructure();
-
 builder.Services.AddCMSAuthentication();
 
 builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
