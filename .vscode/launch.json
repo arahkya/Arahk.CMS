@@ -22,7 +22,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_CERT_PFX_PATH": "${workspaceFolder}\\.certs\\cms.arahk.com.pfx",
+                "ASPNETCORE_CERT_PFX_PATH": "${workspaceFolder}/.certs/cms.arahk.com.pfx",
                 "ASPNETCORE_CERT_PASSKEY": "Password123",
                 "ASPNETCORE_CERT_THUMBPRINT": "3DF009A556F314FF81EB8E459AFAEE8CEC0ABFD5"
 

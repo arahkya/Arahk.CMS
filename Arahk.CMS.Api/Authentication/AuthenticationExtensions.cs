@@ -1,3 +1,5 @@
+using Arahk.CMS.Api.Authentication.Mock;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Certificate;
 
 namespace Arahk.CMS.Api.Authentication;
@@ -8,10 +10,11 @@ public static class AuthenticationExtensions
     {
         services.AddAuthentication(opt =>
         {
-            opt.DefaultAuthenticateScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
+            opt.DefaultAuthenticateScheme = MockAuthenticationDefaults.SchemaName;
             opt.DefaultChallengeScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
             opt.DefaultScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
         })
+        .AddScheme<AuthenticationSchemeOptions,MockAuthenticationHandler>(MockAuthenticationDefaults.SchemaName, cfg => {})
         .AddCertificate(CertificateAuthenticationDefaults.AuthenticationScheme, cfg =>
         {
             cfg.AllowedCertificateTypes = CertificateTypes.All;

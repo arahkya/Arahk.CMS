@@ -1,4 +1,4 @@
 # @baseUrl="arahk-cms.azurewebsites.net"
 
-GET https://cms.arahk.com:8986/content/list
+GET https://localhost:8986/content/list
 Content-Type: application/json

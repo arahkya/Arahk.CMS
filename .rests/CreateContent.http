@@ -1,4 +1,4 @@
-POST https://cms.arahk.com/content
+POST https://localhost:8986/content
 Content-Type: application/json
 
 {
