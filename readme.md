@@ -1,3 +1,9 @@
+# Docker
+To run container enter below command.
+```
+docker run --name cms.arahk -p 8986:8986 -e "ConnectionStrings:Default=Server=host.docker.internal;Database=CMSDB;User Id=SA;Password=Password@123;TrustServerCertificate=true" -e "ASPNETCORE_CERT_PFX_PATH=/app/cms.arahk.com.pfx" -e "ASPNETCORE_CERT_PASSKEY=Password123" -e "ASPNETCORE_CERT_THUMBPRINT=3DF009A556F314FF81EB8E459AFAEE8CEC0ABFD5" -d cms.arahk.com:1.0
+```
+
 # Kubernetes
 ## 1. Create Namespace
 User kubectl command
